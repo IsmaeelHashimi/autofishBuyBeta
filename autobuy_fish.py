@@ -1,3 +1,6 @@
+# Ismaeel Hashimi
+
+# Import libraries
 import time
 import logging
 import os
@@ -8,9 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 
-
-
-# Replace these variables with your actual account and payment information
+# Prompt user for account and payment details
 email = input("What is your e-mail?: ")
 card_number = input("What is your credit card number?: ")
 expiry_month = input("What is your expiry month of the card?: ")
@@ -25,9 +26,10 @@ state = input("What state are you in?: ")
 zipCode = input("What is your zipcode?: ")
 phone = input("What is your phone number?: ")
 discountCode = "aquariumcoop"
-# Initialize WebDriver
+# Initialize Selenium WebDriver while specifying the ChromeDriver path
 driver = webdriver.Chrome(executable_path="C:/Users/MrFla/aquahuna")  # For Chrome
 
+# Defining dictionary that converts full state names to abbreviated versions for website
 states_dict = {
     "alabama": "AL",
     "alaska": "AK",
@@ -94,32 +96,43 @@ states_dict = {
 
 
 }
+
+# Converts the inputted state to the abbreviated version
 state = states_dict[state.lower()]
 
 def add_to_cart():
     while True:
         print("Checking for fish in stock...")
+
+        # Open product page
         driver.get("https://aquahuna.com/collections/freshwater-shrimps/products/singapore-shrimp-bamboo-shrimp")
 
-        time.sleep(2)  # 2-second delay
-
+        time.sleep(2)  # 2-second delay for page to load
+        # Search for "add to cart" button
         add_to_cart_buttons = driver.find_elements(By.XPATH, "//button[@name='add']")
 
+        # Checking if "add to cart" button is disabled
         if add_to_cart_buttons:
             add_to_cart_button = add_to_cart_buttons[0]
             is_disabled = add_to_cart_button.get_attribute("disabled")
 
+            # If "add to cart" button is not disabled (specimen in stock)
             if not is_disabled:
                 driver.execute_script("arguments[0].click();", add_to_cart_button)
                 time.sleep(4)
-                return True
+                return True # Specimen is added to cart
             else:
+                # If product isn't in stock, wait 30 seconds before checking again
                 print("Fish not in stock. Retrying in 30 seconds...")
                 time.sleep(30)
 
 
+
 def checkout():
+    """Function that proceeds to check out and fills all necessary information"""
     print("Proceeding to checkout...")
+
+    # Open cart page
     driver.get("https://aquahuna.com/cart")
     print("Going to cart...")
 
@@ -198,14 +211,17 @@ def checkout():
 
     time.sleep(20)
 
+
+# Run the bot
 if __name__ == "__main__":
     while True:
+        # Check if product is in stock, if so, it gets added to cart
         if add_to_cart():
-            checkout()
+            checkout() # Proceed to checkout
             print("Fish successfully purchased!")
             break
         else:
             print("Fish not in stock. Retrying in 30 seconds...")
-            time.sleep(30)
+            time.sleep(30) # Waits 30 seconds before checking again
 
 
