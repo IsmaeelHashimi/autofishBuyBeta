@@ -1,4 +1,6 @@
-**AUTO PURCHASE BOT FOR AQUAHUNA (Online Fish Retailer)**\n
+**AUTO PURCHASE BOT FOR AQUAHUNA (Online Fish Retailer)**
+
+
 This is a Python script that automatically checks for a specific specimen's availability, (currently only for Bamboo Shrimp, can be changed to any link on the store).
 The following script uses Selenium to interact with the website and to automate the operations in the Chrome browser.
 
