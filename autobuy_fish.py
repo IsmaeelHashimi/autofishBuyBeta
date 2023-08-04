@@ -1,29 +1,100 @@
 import time
-
+import logging
+import os
+import configparser
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 
+
+
 # Replace these variables with your actual account and payment information
-email = "walterclements@hotmail.com"
-password = "waltoisndfo"
-card_number = "1234123412341234"
-expiry_month = "05"
-expiry_year = "24"
-cvv = "344"
-firstName = "Ismaeel"
-lastName = "Hashimi"
-address = "144-41 26th Avenue, Flushing, NY, USA"
-apt = "FL 2"
-city = "Flushing"
-state = "New York"
-zipCode = "11354"
-phone = "6463442302"
+email = input("What is your e-mail?: ")
+card_number = input("What is your credit card number?: ")
+expiry_month = input("What is your expiry month of the card?: ")
+expiry_year = input("What is your expiry year of the card?: ")
+cvv = input("What is the CVV of the card?: ")
+firstName = input("What is your first name?: ")
+lastName = input("What is your last name?: ")
+address = input("What is your address?: ")
+apt = input("APT Number?: ")
+city = input("What is your city?: ")
+state = input("What state are you in?: ")
+zipCode = input("What is your zipcode?: ")
+phone = input("What is your phone number?: ")
 discountCode = "aquariumcoop"
 # Initialize WebDriver
 driver = webdriver.Chrome(executable_path="C:/Users/MrFla/aquahuna")  # For Chrome
+
+states_dict = {
+    "alabama": "AL",
+    "alaska": "AK",
+    "american samoa": "AS",
+    "arizona": "AZ",
+    "arkansas": "AR",
+    "california": "CA",
+    "colorado": "CO",
+    "connecticut": "CT",
+    "delaware": "DE",
+    "washington dc": "DC",
+    "micronesia": "FM",
+    "florida": "FL",
+    "georgia": "GA",
+    "guam": "GU",
+    "hawaii": "HI",
+    "idaho": "ID",
+    "illinois": "IL",
+    "indiana": "IN",
+    "iowa": "IA",
+    "kansas": "KS",
+    "kentucky": "KY",
+    "louisiana": "LA",
+    "maine": "ME",
+    "marshall islands": "MH",
+    "maryland": "MD",
+    "massachusetts": "MA",
+    "michigan": "MI",
+    "minnesota": "MN",
+    "mississippi": "MS",
+    "missouri": "MO",
+    "montana": "MT",
+    "nebraska": "NE",
+    "nevada": "NV",
+    "new hampshire": "NH",
+    "new jersey": "NJ",
+    "new mexico": "NM",
+    "new york": "NY",
+    "north carolina": "NC",
+    "north dakota": "ND",
+    "northern mariana islands": "MP",
+    "ohio": "OH",
+    "oklahoma": "OK",
+    "oregon": "OR",
+    "palau": "PW",
+    "pennsylvania": "PA",
+    "puerto rico": "PR",
+    "rhode island": "RI",
+    "south carolina": "SC",
+    "south dakota": "SD",
+    "tennessee": "TN",
+    "texas": "TX",
+    "utah": "UT",
+    "vermont": "VT",
+    "virginia": "VA",
+    "washington": "WA",
+    "west virginia": "WV",
+    "wisconsin": "WI",
+    "wyoming": "WY",
+    "virgin islands": "VI",
+    "armed forces americas": "AA",
+    "armed forces europe": "AE",
+    "armed forces pacific": "AP",
+
+
+}
+state = states_dict[state.lower()]
 
 def add_to_cart():
     while True:
@@ -72,7 +143,7 @@ def checkout():
     print("apt added...")
     WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.NAME, "city"))).send_keys(city)
     print("city added...")
-    Select(driver.find_element(By.NAME, "zone")).select_by_value("NY")
+    Select(driver.find_element(By.NAME, "zone")).select_by_value(state)
     print("state added...")
     WebDriverWait(driver, 2).until(EC.presence_of_element_located((By.NAME, "postalCode"))).send_keys(zipCode)
     print("zipcode added...")
